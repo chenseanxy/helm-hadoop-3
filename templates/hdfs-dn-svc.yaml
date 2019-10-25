@@ -14,7 +14,7 @@ spec:
     port: 9000
     protocol: TCP
   - name: webhdfs
-    port: 50075
+    port: 9864
   clusterIP: None
   selector:
     app: {{ include "hadoop.name" . }}

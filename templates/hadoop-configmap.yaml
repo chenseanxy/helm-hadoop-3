@@ -34,17 +34,16 @@ data:
     if [[ "${HOSTNAME}" =~ "hdfs-nn" ]]; then
       mkdir -p /root/hdfs/namenode
       $HADOOP_PREFIX/bin/hdfs namenode -format -force -nonInteractive
-      $HADOOP_PREFIX/sbin/hadoop-daemon.sh start namenode
+      $HADOOP_PREFIX/bin/hdfs namenode
     fi
 
     if [[ "${HOSTNAME}" =~ "hdfs-dn" ]]; then
       mkdir -p /root/hdfs/datanode
 
       #  wait up to 30 seconds for namenode
-      (while [[ $count -lt 15 && -z `curl -sf http://{{ include "hadoop.fullname" . }}-hdfs-nn:50070` ]]; do ((count=count+1)) ; echo "Waiting for {{ include "hadoop.fullname" . }}-hdfs-nn" ; sleep 2; done && [[ $count -lt 15 ]])
+      (while [[ $count -lt 15 && -z `curl -sf http://{{ include "hadoop.fullname" . }}-hdfs-nn:9870` ]]; do ((count=count+1)) ; echo "Waiting for {{ include "hadoop.fullname" . }}-hdfs-nn" ; sleep 5; done && [[ $count -lt 15 ]])
       [[ $? -ne 0 ]] && echo "Timeout waiting for hdfs-nn, exiting." && exit 1
-
-      $HADOOP_PREFIX/sbin/hadoop-daemon.sh start datanode
+      $HADOOP_PREFIX/bin/hdfs datanode
     fi
 
     if [[ "${HOSTNAME}" =~ "yarn-rm" ]]; then

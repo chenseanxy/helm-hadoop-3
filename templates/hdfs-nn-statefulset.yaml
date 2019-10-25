@@ -54,13 +54,13 @@ spec:
         readinessProbe:
           httpGet:
             path: /
-            port: 50070
+            port: 9870
           initialDelaySeconds: 5
           timeoutSeconds: 2
         livenessProbe:
           httpGet:
             path: /
-            port: 50070
+            port: 9870
           initialDelaySeconds: 10
           timeoutSeconds: 2
         volumeMounts:
