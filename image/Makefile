@@ -2,26 +2,21 @@
 
 # Current apache hadoop releases: http://hadoop.apache.org/releases.html
 
-HADOOP_26_VERSION = 2.6.5
-HADOOP_27_VERSION = 2.7.5
-HADOOP_28_VERSION = 2.8.3
-HADOOP_29_VERSION = 2.9.0
-HADOOP_30_VERSION = 3.0.0
-PROTOBUF_VERSION = 2.5.0
+HADOOP_30_VERSION = 3.2.1
 
 DOCKER = docker
-DOCKER_REPO = danisla/hadoop
+DOCKER_REPO = chenseanxy/hadoop
 
 all: build
 
 ### Build hadoop versioned images with native libs.
-build: build-$(HADOOP_26_VERSION) build-$(HADOOP_27_VERSION) build-$(HADOOP_28_VERSION) build-$(HADOOP_29_VERSION) build-$(HADOOP_30_VERSION)
+build: build-$(HADOOP_30_VERSION)
 build-%: hadoop-native-%.tar
 	$(DOCKER) build -t hadoop:$* \
 	--build-arg HADOOP_VERSION=$* \
 	.
 
-tag: tag-$(HADOOP_26_VERSION) tag-$(HADOOP_27_VERSION) tag-$(HADOOP_28_VERSION) tag-$(HADOOP_29_VERSION) tag-$(HADOOP_30_VERSION)
+tag: tag-$(HADOOP_30_VERSION)
 tag-%:
 	$(DOCKER) tag hadoop:$* $(DOCKER_REPO):$*
 
@@ -31,17 +26,11 @@ push-%:
 
 ### Fetch source from closest mirror
 hadoop-%-src.tar.gz:
-	curl -sfL http://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-$*/hadoop-$*-src.tar.gz | \
-		egrep -C 3 "We suggest" | \
-		perl -n -e'/href="(.*?)"/ && print $$1' | \
-		xargs curl -LO
+	curl -LO http://archive.apache.org/dist/hadoop/common/hadoop-$*/hadoop-$*-src.tar.gz
 
 ### Fetch binary distribution from closest mirror
 hadoop-%.tar.gz:
-	curl -sfL http://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-$*/hadoop-$*.tar.gz | \
-		egrep -C 3 "We suggest" | \
-		perl -n -e'/href="(.*?)"/ && print $$1' | \
-		xargs curl -LO
+	curl -LO http://archive.apache.org/dist/hadoop/common/hadoop-$*/hadoop-$*.tar.gz
 
 ### Fetch protobuf source
 protobuf-%.tar.bz2:
