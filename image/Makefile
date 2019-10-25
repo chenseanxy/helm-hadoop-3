@@ -20,7 +20,7 @@ tag: tag-$(HADOOP_30_VERSION)
 tag-%:
 	$(DOCKER) tag hadoop:$* $(DOCKER_REPO):$*
 
-push: push-$(HADOOP_26_VERSION) push-$(HADOOP_27_VERSION) push-$(HADOOP_28_VERSION) push-$(HADOOP_29_VERSION) push-$(HADOOP_30_VERSION)
+push: push-$(HADOOP_30_VERSION)
 push-%:
 	$(DOCKER) push $(DOCKER_REPO):$*
 
