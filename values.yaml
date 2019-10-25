@@ -1,12 +1,12 @@
 # The base hadoop image to use for all components.
-# See this repo for image build details: https://github.com/Comcast/kube-yarn/tree/master/image
+# See this repo for image build details: https://github.com/chenseanxy/helm-hadoop-3/tree/master/image
 image:
-  repository: danisla/hadoop
-  tag: 2.9.0
+  repository: chenseanxy/hadoop
+  tag: 3.2.1-nolib
   pullPolicy: IfNotPresent
 
 # The version of the hadoop libraries being used in the image.
-hadoopVersion: 2.9.0
+hadoopVersion: 3.2.1
 
 # Select antiAffinity as either hard or soft, default is soft
 antiAffinity: "soft"
