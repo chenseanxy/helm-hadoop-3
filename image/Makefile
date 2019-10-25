@@ -11,18 +11,18 @@ all: build
 
 ### Build hadoop versioned images with native libs.
 build: build-$(HADOOP_30_VERSION)
-build-%: hadoop-native-%.tar
-	$(DOCKER) build -t hadoop:$* \
+build-%: # hadoop-native-%.tar - Disabled lib building
+	$(DOCKER) build -t hadoop:$*-nolib \
 	--build-arg HADOOP_VERSION=$* \
 	.
 
 tag: tag-$(HADOOP_30_VERSION)
 tag-%:
-	$(DOCKER) tag hadoop:$* $(DOCKER_REPO):$*
+	$(DOCKER) tag hadoop:$*-nolib $(DOCKER_REPO):$*-nolib
 
 push: push-$(HADOOP_30_VERSION)
 push-%:
-	$(DOCKER) push $(DOCKER_REPO):$*
+	$(DOCKER) push $(DOCKER_REPO):$*-nolib
 
 ### Fetch source from closest mirror
 hadoop-%-src.tar.gz:
