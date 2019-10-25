@@ -11,7 +11,7 @@ all: build
 
 ### Build hadoop versioned images with native libs.
 build: build-$(HADOOP_30_VERSION)
-build-%: # hadoop-native-%.tar - Disabled lib building
+build-%: hadoop-%.tar.gz # hadoop-native-%.tar - Disabled lib building
 	$(DOCKER) build -t hadoop:$*-nolib \
 	--build-arg HADOOP_VERSION=$* \
 	.
